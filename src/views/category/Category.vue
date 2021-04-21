@@ -1,5 +1,8 @@
 <template>
   <div class="wrapper" ref="aaaa">
+<!--按钮的话无论是否设置click:true都可以点击，div点击时间就必须设置未true-->
+    <button @click="btnClick">按钮</button>
+    <div @click="divClick">嘿嘿嘿</div>
     <ul class="content">
       <li>分类列表1</li>
       <li>分类列表2</li>
@@ -124,12 +127,23 @@
     // },
     //组件创建完后调用
     mounted() {
-      // console.log(this.$refs.aaaa);
-      // console.log(document.querySelector('.wrapper'));
-
       this.scroll = new BScroll(document.querySelector('.wrapper'),{
-
+        probeType: 3,
+        pullUpLoad: true,
+        click: true
       })
+
+      this.scroll.on('scroll', (position) => {
+        console.log(position);
+      })
+    },
+    methods: {
+      btnClick() {
+        console.log('btnClick');
+      },
+      divClick() {
+        console.log('divClick');
+      }
     }
   }
 </script>
