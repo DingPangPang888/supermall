@@ -32,24 +32,36 @@
 		  this.scroll = new BSscroll(this.$refs.wrapper, {
         click: true,
         probeType: this.probeType,
-        pullUpLoad: this.pullUpLoad
+        pullUpLoad: this.pullUpLoad,
+        //监听图片加载完成
+        // observeDOM: true,
+        // observeDOMImage: true
       })
-      //2.监听滚动的位置
-       this.scroll.on('scroll', (position) => {
-         // console.log(position);
-         this.$emit('scroll', position)
-       })
-      //3.监听上拉事件
-      this.scroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
+      //2.监听滚动的位置(代码更加严谨)
+       if (this.probeType === 2 || this.probeType === 3) {
+         this.scroll.on('scroll', (position) => {
+           this.$emit('scroll', position)
+         })
+       }
+      //3.监听上拉事件（代码更加严谨）
+      if (this.pullUpLoad) {
+        this.scroll.on('pullingUp', () => {
+          this.$emit('pullingUp')
+        })
+      }
     },
     methods: {
 		  scrollTo(x, y, time=300) {
-		    this.scroll.scrollTo(x, y, time)
+		    this.scroll && this.scrollTo && this.scroll.scrollTo(x, y, time)
+      },
+      refresh() {
+        this.scroll && this.scrollTo && this.scroll.refresh()
       },
       finishPullUp() {
-		    this.scroll.finishPullUp()
+        this.scroll && this.scroll.finishPullUp()
+      },
+      getScrollY() {
+		    return this.scroll ? this.scroll.y : 0
       }
     }
   }
